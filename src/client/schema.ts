@@ -2,7 +2,16 @@ export type Task = {
   id: number;
   name: string;
   description?: string;
-  is_completed: boolean;
+  content?: string;
+  due_date?: TaskDueDate;
+  priority: string;
+};
+
+export type TaskDueDate = {
+  due_date: string;
+  hour_included: boolean;
+  remainder_date: string;
+  remainder_value: string;
 };
 
 export type User = {

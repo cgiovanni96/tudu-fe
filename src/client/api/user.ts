@@ -12,9 +12,6 @@ const useCreateUser = () =>
         password: "password1234",
         password_confirmation: "password1234",
       });
-
-      console.log("response", response, response.data);
-
       return response.data;
     },
   });

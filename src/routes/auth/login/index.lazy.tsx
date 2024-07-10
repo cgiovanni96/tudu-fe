@@ -1,4 +1,4 @@
-import { createLazyFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { IconBrandGithub } from "@tabler/icons-react";
 import {
   Paper,
@@ -8,14 +8,18 @@ import {
   Title,
   Text,
   Anchor,
+  Divider,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
+import { notifications } from "@mantine/notifications";
 import { useQueryClient } from "@tanstack/react-query";
 import { z } from "zod";
-import { AUTH } from "@/client/api/auth";
+import { useContext } from "react";
+
+import { AuthContext } from "@/providers";
+import { AUTH } from "@/client/api";
 
 import classes from "./login.module.css";
-import { notifications } from "@mantine/notifications";
 
 const loginSchema = z.object({
   email: z.string().min(1).max(255).email(),
@@ -25,6 +29,7 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>;
 
 const Login = () => {
+  const auth = useContext(AuthContext);
   const form = useForm<LoginSchema>({
     mode: "uncontrolled",
     initialValues: {
@@ -34,21 +39,31 @@ const Login = () => {
     validate: zodResolver(loginSchema),
   });
 
+  const search = Route.useSearch();
+
   const client = useQueryClient();
   const router = useRouter();
 
-  const mutation = AUTH.useLoginMutation(client);
+  const loginMutation = AUTH.MUTATIONS.useLoginMutation({
+    client,
+    onSuccess: async () => {
+      await auth?.authenticate(form.getValues().email);
+    },
+  });
 
   const authOnClick = async (data: LoginSchema) => {
-    const response = await mutation.mutateAsync(data);
-    console.log("response", response);
+    const response = await loginMutation.mutateAsync(data);
     if (response.success) {
-      // FIX: notifications.show does not work
       notifications.show({
         title: "Success",
         message: "You are logged in",
       });
-      router.history.push("/");
+
+      if (!search.redirect) {
+        router.history.push("/");
+      } else {
+        router.history.push(`/${search.redirect}`);
+      }
     }
   };
 
@@ -76,7 +91,7 @@ const Login = () => {
           />
 
           <Button
-            loading={mutation.isPending}
+            loading={loginMutation.isPending}
             type="submit"
             fullWidth
             mt="xl"
@@ -85,11 +100,13 @@ const Login = () => {
             Login
           </Button>
 
+          <Divider my="md" />
+
           <Button
             leftSection={<IconBrandGithub />}
-            variant="subtle"
+            variant="light"
+            mt="sm"
             fullWidth
-            mt="xl"
             size="md"
             component="a"
             href="http://localhost:8888/api/v1/auth/github/redirect"
@@ -113,6 +130,11 @@ const Login = () => {
   );
 };
 
-export const Route = createLazyFileRoute("/auth/login/")({
+const searchParamsSchema = z.object({
+  redirect: z.optional(z.string()),
+});
+
+export const Route = createFileRoute("/auth/login/")({
   component: Login,
+  validateSearch: (search) => searchParamsSchema.parse(search),
 });
