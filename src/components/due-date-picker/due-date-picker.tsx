@@ -7,7 +7,7 @@ import {
   TextInput,
 } from "@mantine/core";
 import { DatePicker, DateValue, TimeInput } from "@mantine/dates";
-import { IconX } from "@tabler/icons-react";
+import { IconCalendar, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Remainder } from "./remainder";
@@ -94,6 +94,7 @@ export const DueDatePicker = (props: Props) => {
     <Popover opened={opened} onChange={setOpened}>
       <Popover.Target>
         <TextInput
+          leftSection={<IconCalendar size={18} />}
           onClick={() => setOpened(true)}
           value={
             props.dueDateInfo?.due_date
@@ -150,6 +151,11 @@ export const DueDatePicker = (props: Props) => {
 
           <Remainder
             onChange={onChangeRemainder}
+            disabled={
+              props.dueDateInfo?.due_date
+                ? dayjs().isAfter(dayjs(props.dueDateInfo.due_date))
+                : false
+            }
             defaultValue={
               props.dueDateInfo?.remainder_value as RemainderMapKeys | undefined
             }

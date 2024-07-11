@@ -12,6 +12,7 @@ type Props = {
     remainder_value?: RemainderMapValues,
     remainder_key?: RemainderMapKeys,
   ) => void;
+  disabled?: boolean;
   defaultValue?: RemainderMapKeys;
 };
 
@@ -22,7 +23,9 @@ export const Remainder = (props: Props) => {
 
   return (
     <Select
+      label="Remainder"
       value={remainder}
+      disabled={props.disabled}
       clearable
       onChange={(value) => {
         setRemainder(value as RemainderMapKeys);

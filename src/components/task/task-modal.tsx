@@ -6,7 +6,6 @@ import {
   Group,
   Modal,
   ModalProps,
-  Select,
   Stack,
   TextInput,
   Textarea,
@@ -18,6 +17,7 @@ import { AddTaskDto, addTaskSchema, TASK } from "@/client/api/task";
 import { useQueryClient } from "@tanstack/react-query";
 import { DueDatePicker } from "../due-date-picker";
 import { DueDateInfo } from "../due-date-picker/due-date-picker";
+import { PriorityPicker } from "../priority-picker";
 
 type Props = ModalProps & {
   initialValue?: Task;
@@ -96,13 +96,7 @@ export const TaskModal = ({ initialValue, ...props }: Props) => {
           />
 
           <Group>
-            <Select
-              label="Priority"
-              data={[
-                { value: "low", label: "Low" },
-                { value: "medium", label: "Medium" },
-                { value: "high", label: "High" },
-              ]}
+            <PriorityPicker
               key={form.key("priority")}
               {...form.getInputProps("priority")}
             />
@@ -112,6 +106,7 @@ export const TaskModal = ({ initialValue, ...props }: Props) => {
               onChange={setDueDateInfo}
             />
           </Group>
+
           <Group justify="flex-end">
             <Button
               type="submit"
