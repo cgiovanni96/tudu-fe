@@ -8,3 +8,5 @@ export type BreadCrumb = {
 export type MutationParams = {
   client: QueryClient;
 };
+
+export type View = "default" | "list" | "table";

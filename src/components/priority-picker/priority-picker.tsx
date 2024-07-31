@@ -24,12 +24,12 @@ const SelectOption = (props: PriorityOption) => {
 };
 
 type Props = {
-  defaultValue?: string;
-  onChange: (value?: string) => void;
+  defaultValue?: number;
+  onChange: (value?: number) => void;
 };
 
 export const PriorityPicker = (props: Props) => {
-  const [value, setValue] = useState<string | undefined>(props.defaultValue);
+  const [value, setValue] = useState<number | undefined>(props.defaultValue);
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   });
@@ -37,7 +37,7 @@ export const PriorityPicker = (props: Props) => {
   const selectedOption = priorities.find((item) => item.value === value);
 
   const options = priorities.map((item) => (
-    <Combobox.Option value={item.value} key={item.value}>
+    <Combobox.Option value={item.value.toString()} key={item.value}>
       <SelectOption {...item} />
     </Combobox.Option>
   ));
@@ -47,8 +47,8 @@ export const PriorityPicker = (props: Props) => {
       store={combobox}
       withinPortal={false}
       onOptionSubmit={(val) => {
-        setValue(val);
-        props.onChange(val);
+        setValue(+val);
+        props.onChange(+val);
         combobox.closeDropdown();
       }}
     >

@@ -15,15 +15,14 @@ import { IconDeviceFloppy } from "@tabler/icons-react";
 
 import { AddTaskDto, addTaskSchema, TASK } from "@/client/api/task";
 import { useQueryClient } from "@tanstack/react-query";
-import { DueDatePicker } from "../due-date-picker";
-import { DueDateInfo } from "../due-date-picker/due-date-picker";
+import { DueDatePicker, DueDateInfo } from "../due-date-picker";
 import { PriorityPicker } from "../priority-picker";
 
 type Props = ModalProps & {
   initialValue?: Task;
 };
 
-export const TaskModal = ({ initialValue, ...props }: Props) => {
+export const TaskModal = ({ initialValue, onClose, ...props }: Props) => {
   const type = useMemo(
     () => (initialValue?.id && initialValue.id >= 0 ? "edit" : "create"),
     [initialValue],
@@ -49,7 +48,7 @@ export const TaskModal = ({ initialValue, ...props }: Props) => {
       id: type === "edit" ? initialValue!.id : undefined,
       name: initialValue?.name || "",
       description: initialValue?.description || "",
-      priority: initialValue?.priority || "medium",
+      priority: initialValue?.priority || 1,
       due_date: initialValue?.due_date?.due_date
         ? initialValue.due_date?.due_date
         : undefined,
@@ -62,13 +61,18 @@ export const TaskModal = ({ initialValue, ...props }: Props) => {
     validate: zodResolver(addTaskSchema),
   });
 
+  const closeModal = () => {
+    form.reset();
+    onClose();
+  };
+
   const onSubmiteSave = async (data: AddTaskDto) => {
     await addTaskMutation.mutateAsync({ ...data, ...dueDateInfo });
-    props.onClose();
+    closeModal();
   };
 
   return (
-    <Modal {...props} size="lg">
+    <Modal onClose={closeModal} {...props} size="lg">
       <form onSubmit={form.onSubmit(onSubmiteSave)}>
         <Stack>
           {type === "edit" && (

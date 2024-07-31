@@ -1,7 +1,7 @@
 import { Navigate, useRouterState } from "@tanstack/react-router";
 import { Helmet } from "react-helmet-async";
 import { forwardRef, ReactNode, useEffect } from "react";
-import { Box, BoxProps } from "@mantine/core";
+import { BoxProps, Stack } from "@mantine/core";
 import { nprogress } from "@mantine/nprogress";
 
 import { AUTH } from "@/client/api";
@@ -33,9 +33,9 @@ export const Page = forwardRef<HTMLDivElement, Props>(
         {status === "error" && <Navigate to="/auth/login" />}
 
         {status === "success" && (
-          <Box ref={ref} {...other}>
+          <Stack ref={ref} {...other} h="100%">
             {children}
-          </Box>
+          </Stack>
         )}
       </>
     );

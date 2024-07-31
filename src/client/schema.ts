@@ -4,7 +4,7 @@ export type Task = {
   description?: string;
   content?: string;
   due_date?: TaskDueDate;
-  priority: string;
+  priority: 0 | 1 | 2;
 };
 
 export type TaskDueDate = {

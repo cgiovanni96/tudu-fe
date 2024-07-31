@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import {
   GroupProps,
   ElementProps,
@@ -7,10 +7,15 @@ import {
   Anchor,
   Text,
   Group,
+  ActionIcon,
+  Drawer,
+  Stack,
 } from "@mantine/core";
 import { Link } from "@tanstack/react-router";
 
 import type { BreadCrumb } from "@/types";
+import { useDisclosure, useMediaQuery } from "@mantine/hooks";
+import { IconMenu2 } from "@tabler/icons-react";
 
 interface Props
   extends Omit<GroupProps, "title">,
@@ -24,15 +29,15 @@ export const PageHeader = ({
   title,
   breadcrumbs,
   className,
-  mb = "xl",
   ...props
 }: Props) => {
+  const matches = useMediaQuery("(min-width: 56.25em)");
+
   return (
     <Group
       component="header"
       justify="space-between"
       className={className}
-      mb={mb}
       {...props}
     >
       <div>
@@ -64,7 +69,27 @@ export const PageHeader = ({
         )}
       </div>
 
-      {children}
+      {matches ? (
+        <Group>{children}</Group>
+      ) : (
+        <PageHeaderMobileDrawer>{children}</PageHeaderMobileDrawer>
+      )}
     </Group>
+  );
+};
+
+const PageHeaderMobileDrawer = ({ children }: PropsWithChildren) => {
+  const [opened, { open, close }] = useDisclosure(false);
+
+  return (
+    <>
+      <ActionIcon onClick={open}>
+        <IconMenu2 />
+      </ActionIcon>
+
+      <Drawer opened={opened} onClose={close} title="Options">
+        <Stack>{children}</Stack>
+      </Drawer>
+    </>
   );
 };

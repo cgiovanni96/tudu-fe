@@ -3,11 +3,11 @@ import { MantineColor } from "@mantine/core";
 export type PriorityOption = {
   color: MantineColor;
   label: string;
-  value: "high" | "medium" | "low";
+  value: 0 | 1 | 2;
 };
 
 export const priorities: Array<PriorityOption> = [
-  { color: "red", label: "High", value: "high" },
-  { color: "yellow", label: "Medium", value: "medium" },
-  { color: "teal", label: "Low", value: "low" },
+  { color: "red", label: "High", value: 2 },
+  { color: "yellow", label: "Medium", value: 1 },
+  { color: "teal", label: "Low", value: 0 },
 ];

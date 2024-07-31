@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { IconCheck, IconPlus } from "@tabler/icons-react";
-import { Box, Button, Stack, Title } from "@mantine/core";
+import { IconCheck, IconPlus, IconSearch } from "@tabler/icons-react";
+import { Box, Button, TextInput } from "@mantine/core";
 
 import { TASK } from "@/client/api";
 import {
@@ -11,22 +11,38 @@ import {
   PageHeader,
   PageLoading,
 } from "@/components/page";
-import { TaskList, TaskModal } from "@/components/task";
+import {
+  TaskDefaultView,
+  TaskListView,
+  TaskTableView,
+  TaskModal,
+} from "@/components/task";
 import { Task } from "@/client/schema";
+import { View } from "@/types/shared";
+import { ViewSwitcher } from "@/components/view-switcher";
+import { useDebouncedState } from "@mantine/hooks";
+import { TaskEmptyView } from "@/components/task/views/task-empty";
 
 const newTask: Task = {
   id: -1,
   name: "",
-  priority: "medium",
+  priority: 1,
   due_date: undefined,
 };
 
 export const Tasks = () => {
+  const [tasksFilter, setTaskFilter] = useDebouncedState("", 200);
   const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
+  const [view, setView] = useState<View>("default");
 
   const { data: tasks, status } = useQuery({
     queryKey: ["tasks"],
     queryFn: TASK.getTasks.queryFn,
+    select: (data) => ({
+      data: data.data.filter((t) =>
+        t.name.toUpperCase().includes(tasksFilter.toUpperCase()),
+      ),
+    }),
   });
 
   return (
@@ -41,6 +57,13 @@ export const Tasks = () => {
           </>
         }
       >
+        <TextInput
+          leftSection={<IconSearch size={18} />}
+          defaultValue={tasksFilter}
+          placeholder="Filter by name"
+          onChange={(e) => setTaskFilter(e.target.value)}
+        />
+        <ViewSwitcher view={view} onChange={setView} />
         <Button
           leftSection={<IconPlus />}
           variant="light"
@@ -52,18 +75,18 @@ export const Tasks = () => {
       {status === "error" && <PageError />}
       {status === "pending" && <PageLoading />}
       {status === "success" && tasks && tasks.data && tasks.data.length > 0 && (
-        <TaskList tasks={tasks.data} />
+        <>
+          {view === "default" && <TaskDefaultView tasks={tasks.data} />}
+          {view === "list" && <TaskListView tasks={tasks.data} />}
+          {view === "table" && <TaskTableView tasks={tasks.data} />}
+        </>
       )}
 
       {/* TODO: better empty tasks view */}
       {status === "success" &&
         tasks &&
         tasks.data &&
-        tasks.data.length === 0 && (
-          <Stack>
-            <Title order={1}>No active tasks, add some.</Title>
-          </Stack>
-        )}
+        tasks.data.length === 0 && <TaskEmptyView />}
 
       <TaskModal
         opened={!!editingTask}

@@ -14,13 +14,12 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as DashboardImport } from './routes/_dashboard'
+import { Route as AuthImport } from './routes/_auth'
 
 // Create Virtual Routes
 
 const DashboardIndexLazyImport = createFileRoute('/_dashboard/')()
 const DashboardAboutLazyImport = createFileRoute('/_dashboard/about')()
-const AuthRegisterIndexLazyImport = createFileRoute('/auth/register/')()
-const AuthLoginIndexLazyImport = createFileRoute('/auth/login/')()
 const DashboardTasksIndexLazyImport = createFileRoute('/_dashboard/tasks/')()
 const DashboardHabitsIndexLazyImport = createFileRoute('/_dashboard/habits/')()
 const DashboardCalendarIndexLazyImport = createFileRoute(
@@ -29,11 +28,20 @@ const DashboardCalendarIndexLazyImport = createFileRoute(
 const DashboardUserProfileLazyImport = createFileRoute(
   '/_dashboard/user/profile',
 )()
+const AuthAuthRegisterIndexLazyImport = createFileRoute(
+  '/_auth/auth/register/',
+)()
+const AuthAuthLoginIndexLazyImport = createFileRoute('/_auth/auth/login/')()
 
 // Create/Update Routes
 
 const DashboardRoute = DashboardImport.update({
   id: '/_dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -49,20 +57,6 @@ const DashboardAboutLazyRoute = DashboardAboutLazyImport.update({
   getParentRoute: () => DashboardRoute,
 } as any).lazy(() =>
   import('./routes/_dashboard/about.lazy').then((d) => d.Route),
-)
-
-const AuthRegisterIndexLazyRoute = AuthRegisterIndexLazyImport.update({
-  path: '/auth/register/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/auth/register/index.lazy').then((d) => d.Route),
-)
-
-const AuthLoginIndexLazyRoute = AuthLoginIndexLazyImport.update({
-  path: '/auth/login/',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/auth/login/index.lazy').then((d) => d.Route),
 )
 
 const DashboardTasksIndexLazyRoute = DashboardTasksIndexLazyImport.update({
@@ -95,10 +89,28 @@ const DashboardUserProfileLazyRoute = DashboardUserProfileLazyImport.update({
   import('./routes/_dashboard/user/profile.lazy').then((d) => d.Route),
 )
 
+const AuthAuthRegisterIndexLazyRoute = AuthAuthRegisterIndexLazyImport.update({
+  path: '/auth/register/',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() =>
+  import('./routes/_auth/auth/register/index.lazy').then((d) => d.Route),
+)
+
+const AuthAuthLoginIndexLazyRoute = AuthAuthLoginIndexLazyImport.update({
+  path: '/auth/login/',
+  getParentRoute: () => AuthRoute,
+} as any).lazy(() =>
+  import('./routes/_auth/auth/login/index.lazy').then((d) => d.Route),
+)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_auth': {
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
     '/_dashboard': {
       preLoaderRoute: typeof DashboardImport
       parentRoute: typeof rootRoute
@@ -127,13 +139,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTasksIndexLazyImport
       parentRoute: typeof DashboardImport
     }
-    '/auth/login/': {
-      preLoaderRoute: typeof AuthLoginIndexLazyImport
-      parentRoute: typeof rootRoute
+    '/_auth/auth/login/': {
+      preLoaderRoute: typeof AuthAuthLoginIndexLazyImport
+      parentRoute: typeof AuthImport
     }
-    '/auth/register/': {
-      preLoaderRoute: typeof AuthRegisterIndexLazyImport
-      parentRoute: typeof rootRoute
+    '/_auth/auth/register/': {
+      preLoaderRoute: typeof AuthAuthRegisterIndexLazyImport
+      parentRoute: typeof AuthImport
     }
   }
 }
@@ -141,6 +153,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
+  AuthRoute.addChildren([
+    AuthAuthLoginIndexLazyRoute,
+    AuthAuthRegisterIndexLazyRoute,
+  ]),
   DashboardRoute.addChildren([
     DashboardAboutLazyRoute,
     DashboardIndexLazyRoute,
@@ -149,8 +165,6 @@ export const routeTree = rootRoute.addChildren([
     DashboardHabitsIndexLazyRoute,
     DashboardTasksIndexLazyRoute,
   ]),
-  AuthLoginIndexLazyRoute,
-  AuthRegisterIndexLazyRoute,
 ])
 
 /* prettier-ignore-end */

@@ -1,16 +1,17 @@
 import { Task } from "@/client/schema";
 import { Divider, Group, Stack, Text, Badge } from "@mantine/core";
-import { TaskCompleteIcon } from "./task-complete-icon";
+import { TaskCompleteIcon } from "../task-complete-icon";
 
-import styles from "./task.module.css";
+import styles from "../task.module.css";
 import { IconCalendar } from "@tabler/icons-react";
 import dayjs from "dayjs";
+import { TaskPriority } from "../task-priority";
 
 type Props = {
   tasks: Array<Task>;
 };
 
-export const TaskList = (props: Props) => {
+export const TaskDefaultView = (props: Props) => {
   return (
     <Stack>
       {props.tasks.map((task) => (
@@ -21,18 +22,7 @@ export const TaskList = (props: Props) => {
               <Text>{task.name}</Text>
               <Text className={styles.taskDescription}>{task.description}</Text>
               <Group>
-                <Badge
-                  color={
-                    task.priority === "low"
-                      ? "yellow"
-                      : task.priority === "medium"
-                        ? "teal"
-                        : "red"
-                  }
-                  variant="light"
-                >
-                  {task.priority}
-                </Badge>
+                <TaskPriority priority={task.priority} />
 
                 {task.due_date && (
                   <Badge
