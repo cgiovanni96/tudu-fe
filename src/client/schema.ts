@@ -22,3 +22,10 @@ export type User = {
   name: string;
   updated_at: string;
 };
+
+export type ScheduledTask = {
+  id: string;
+  scheduled_time: string;
+  task_id: string;
+  task_name: string;
+};

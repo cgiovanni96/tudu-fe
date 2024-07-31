@@ -2,9 +2,8 @@ import {
   IconCalendar,
   IconCheck,
   IconHome2,
-  IconLogin,
+  IconHourglassFilled,
   IconRepeat,
-  IconSignature,
 } from "@tabler/icons-react";
 import { ElementType } from "react";
 
@@ -49,17 +48,12 @@ export const menu: MenuItem[] = [
   },
 
   {
-    header: "Auth",
+    header: "Admin",
     section: [
       {
-        name: "Login",
-        href: "/auth/login",
-        icon: IconLogin,
-      },
-      {
-        name: "Register",
-        href: "/auth/register",
-        icon: IconSignature,
+        name: "Scheduler",
+        href: "/admin/scheduler/tasks",
+        icon: IconHourglassFilled,
       },
     ],
   },

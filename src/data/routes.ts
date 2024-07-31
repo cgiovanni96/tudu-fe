@@ -11,4 +11,8 @@ export const routes = {
     habits: "/habits",
     calendar: "/calendar",
   },
+
+  admin: {
+    scheduler: "/admin/scheduler/tasks",
+  },
 };
