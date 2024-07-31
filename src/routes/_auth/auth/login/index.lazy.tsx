@@ -1,14 +1,12 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { IconBrandGithub } from "@tabler/icons-react";
 import {
-  Paper,
   TextInput,
   PasswordInput,
   Button,
-  Title,
   Text,
-  Anchor,
   Divider,
+  Box,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
@@ -18,8 +16,6 @@ import { useContext } from "react";
 
 import { AuthContext } from "@/providers";
 import { AUTH } from "@/client/api";
-
-import classes from "./login.module.css";
 
 const loginSchema = z.object({
   email: z.string().min(1).max(255).email(),
@@ -68,65 +64,55 @@ const Login = () => {
   };
 
   return (
-    <div className={classes.wrapper}>
-      <Paper className={classes.form} radius={0} p={30}>
-        <Title order={2} className={classes.title} ta="center" mt="md" mb={50}>
-          Welcome back to Mantine!
-        </Title>
+    <>
+      <form onSubmit={form.onSubmit((data) => authOnClick(data))}>
+        <TextInput
+          label="Email address"
+          placeholder="hello@gmail.com"
+          size="md"
+          {...form.getInputProps("email")}
+        />
 
-        <form onSubmit={form.onSubmit((data) => authOnClick(data))}>
-          <TextInput
-            label="Email address"
-            placeholder="hello@gmail.com"
-            size="md"
-            {...form.getInputProps("email")}
-          />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          mt="md"
+          size="md"
+          {...form.getInputProps("password")}
+        />
 
-          <PasswordInput
-            label="Password"
-            placeholder="Your password"
-            mt="md"
-            size="md"
-            {...form.getInputProps("password")}
-          />
+        <Button
+          loading={loginMutation.isPending}
+          type="submit"
+          fullWidth
+          mt="xl"
+          size="md"
+        >
+          Login
+        </Button>
 
-          <Button
-            loading={loginMutation.isPending}
-            type="submit"
-            fullWidth
-            mt="xl"
-            size="md"
-          >
-            Login
-          </Button>
+        <Divider my="md" />
 
-          <Divider my="md" />
+        <Button
+          leftSection={<IconBrandGithub />}
+          variant="light"
+          mt="sm"
+          fullWidth
+          size="md"
+          component="a"
+          href="http://localhost:8888/api/v1/auth/github/redirect"
+        >
+          Github
+        </Button>
+      </form>
 
-          <Button
-            leftSection={<IconBrandGithub />}
-            variant="light"
-            mt="sm"
-            fullWidth
-            size="md"
-            component="a"
-            href="http://localhost:8888/api/v1/auth/github/redirect"
-          >
-            Github
-          </Button>
-        </form>
-
-        <Text ta="center" mt="md">
-          Don&apos;t have an account?{" "}
-          <Anchor<"a">
-            href="#"
-            fw={700}
-            onClick={(event) => event.preventDefault()}
-          >
-            Register
-          </Anchor>
-        </Text>
-      </Paper>
-    </div>
+      <Text ta="center" mt="md">
+        Don&apos;t have an account?{" "}
+        <Box component={Link} to="/auth/register">
+          Register
+        </Box>
+      </Text>
+    </>
   );
 };
 
@@ -134,7 +120,7 @@ const searchParamsSchema = z.object({
   redirect: z.optional(z.string()),
 });
 
-export const Route = createFileRoute("/auth/login/")({
+export const Route = createFileRoute("/_auth/auth/login/")({
   component: Login,
   validateSearch: (search) => searchParamsSchema.parse(search),
 });
