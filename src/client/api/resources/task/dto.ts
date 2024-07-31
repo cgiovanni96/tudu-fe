@@ -4,7 +4,7 @@ export const addTaskSchema = z.object({
   id: z.optional(z.number()),
   name: z.string().min(1),
   description: z.string().optional(),
-  priority: z.number().lt(2).gte(0),
+  priority: z.number().lte(2).gte(0),
   due_date: z.optional(z.string()),
   hour_included: z.optional(z.boolean()),
   remainder_date: z.optional(z.string()),

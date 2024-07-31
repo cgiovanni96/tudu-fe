@@ -121,6 +121,7 @@ export const DueDatePicker = (props: Props) => {
                 ? undefined
                 : new Date(props.dueDateInfo.due_date)
             }
+            minDate={new Date()}
             onChange={onChangeDate}
           />
 
