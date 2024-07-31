@@ -13,17 +13,14 @@ const userInitials = (name: string): string => {
 
   const splitted = name.split(" ");
 
-  if (splitted.length === 1)
-    return `${splitted[0][0].toUpperCase()}${splitted[0][1].toUpperCase}`;
-
-  return `${splitted[0][0].toUpperCase()}${splitted[splitted.length - 1][0].toUpperCase()}`;
+  return splitted.length === 1
+    ? `${splitted[0][0].toUpperCase()}${splitted[0][1].toUpperCase()}`
+    : `${splitted[0][0].toUpperCase()}${splitted[splitted.length - 1][0].toUpperCase()}`;
 };
 
 export function CurrentUser(props: CurrentUserProps) {
   const client = useQueryClient();
-
   const { data: user } = AUTH.useMe();
-
   const logout = AUTH.MUTATIONS.useLogoutMutation({ client });
 
   const handleLogout = async () => {

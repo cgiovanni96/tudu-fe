@@ -12,4 +12,6 @@
 ## TASKS
 
 [x] Empty state view
-[] Animation on Task completion -> framer motion ?
+[x] disable past dates on task modal
+[] undo on notification after complete
+[] be -> scheduled job for daily reminders
