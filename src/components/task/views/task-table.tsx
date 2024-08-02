@@ -2,6 +2,8 @@ import { Task } from "@/client/schema";
 import { Table } from "@mantine/core";
 import { TaskPriority } from "../task-priority";
 
+import classes from "./task-view.module.css";
+
 type Props = {
   tasks: Array<Task>;
 };
@@ -10,7 +12,7 @@ export const TaskTableView = (props: Props) => {
   return (
     <Table withTableBorder withColumnBorders withRowBorders>
       <Table.Thead>
-        <Table.Tr>
+        <Table.Tr className={classes.tableHeaderRow}>
           <Table.Th>Name</Table.Th>
           <Table.Th>Description</Table.Th>
           <Table.Th>Priority</Table.Th>

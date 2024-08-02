@@ -1,26 +1,59 @@
-import { SCHEDULERS } from "@/client/api/scheduler";
-import { AuthenticatedPage, PageHeader } from "@/components/page";
-import { Group, Stack, Text } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { ActionIcon, Table } from "@mantine/core";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
+import { IconHourglass, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
+
+import { SCHEDULERS } from "@/client/api/scheduler";
+
+import { Page } from "@/components/page";
 
 const SchedulerTasks = () => {
   const { data } = useQuery(SCHEDULERS.getScheduledTasks);
+  const client = useQueryClient();
+
+  const mutation = SCHEDULERS.useDeleteScheduledTask(client);
+
+  const onClickDelete = async (id: number) => {
+    await mutation.mutateAsync(id);
+  };
 
   return (
-    <AuthenticatedPage title="Scheduled Tasks">
-      <PageHeader title="Scheduled Tasks" />
-
-      <Stack>
-        {data?.map((item) => (
-          <Group>
-            <Text fw="bold">{item.task_name}</Text>
-            <Text>{dayjs(item.scheduled_time).format("DD/MM/YYYY HH:mm")}</Text>
-          </Group>
-        ))}
-      </Stack>
-    </AuthenticatedPage>
+    <Page.Authenticated title="Scheduled Tasks">
+      <Page.Header
+        icon={<IconHourglass />}
+        title="Scheduled Tasks"
+        breadcrumbs={[
+          { label: "Admin" },
+          { href: "/admin/scheduler", label: "Scheduler Dashboard" },
+          { label: "Scheduled Tasks" },
+        ]}
+      />
+      <Table>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Name</Table.Th>
+            <Table.Th>Remainder Time</Table.Th>
+            <Table.Th>Actions</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {data?.map((item) => (
+            <Table.Tr key={item.id}>
+              <Table.Td>{item.task_name}</Table.Td>
+              <Table.Td>
+                {dayjs(item.scheduled_time).format("DD/MM/YYYY HH:mm")}
+              </Table.Td>
+              <Table.Td styles={{ td: { width: "50px" } }}>
+                <ActionIcon color="red" onClick={() => onClickDelete(item.id)}>
+                  <IconX color="var(--mantine-color-red-6)" />
+                </ActionIcon>
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Page.Authenticated>
   );
 };
 

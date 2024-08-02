@@ -5,21 +5,31 @@ import {
   remainderOptions,
 } from "@/data";
 import { Select } from "@mantine/core";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type Props = {
+  disabled?: boolean;
+  defaultValue?: RemainderMapKeys;
+  hour_included?: boolean;
+
   onChange: (
     remainder_value?: RemainderMapValues,
     remainder_key?: RemainderMapKeys,
   ) => void;
-  disabled?: boolean;
-  defaultValue?: RemainderMapKeys;
 };
 
 export const Remainder = (props: Props) => {
   const [remainder, setRemainder] = useState<RemainderMapKeys | undefined>(
     props.defaultValue,
   );
+
+  const options = useMemo(() => {
+    const opts = [{ group: "Daily", items: remainderOptions.dayly }];
+    if (props.hour_included) {
+      opts.push({ group: "Hourly", items: remainderOptions.hourly });
+    }
+    return opts;
+  }, [props.hour_included]);
 
   return (
     <Select
@@ -34,7 +44,7 @@ export const Remainder = (props: Props) => {
           value as RemainderMapKeys,
         );
       }}
-      data={remainderOptions}
+      data={options}
       comboboxProps={{ withinPortal: false }}
     />
   );

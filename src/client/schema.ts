@@ -15,17 +15,17 @@ export type TaskDueDate = {
 };
 
 export type User = {
+  id: number;
   created_at: string;
   email: string;
   email_verified_at: string | null;
-  id: number;
   name: string;
   updated_at: string;
 };
 
 export type ScheduledTask = {
-  id: string;
+  id: number;
   scheduled_time: string;
-  task_id: string;
+  task_id: number;
   task_name: string;
 };

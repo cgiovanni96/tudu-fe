@@ -14,7 +14,10 @@ export const remainderMap: Record<MapKeys, MapValues> = {
   },
 };
 
-export const remainderOptions: Array<{ value: MapKeys; label: string }> = [
-  { value: "1_DAY_BEFORE", label: "1 day before" },
-  { value: "1_HOUR_BEFORE", label: "1 hour before" },
-];
+export const remainderOptions: Record<
+  "dayly" | "hourly",
+  Array<{ value: MapKeys; label: string }>
+> = {
+  dayly: [{ value: "1_DAY_BEFORE", label: "1 day before" }],
+  hourly: [{ value: "1_HOUR_BEFORE", label: "1 hour before" }],
+};

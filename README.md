@@ -3,15 +3,15 @@
 ## GLOBAL
 
 [] Better action row desktop/mobile -> not global, specific for the component
+[] be -> default timezone
 
 ## USER
 
-[x] Registration
 [] Why redirection to 8888 on social login ?
 
 ## TASKS
 
-[x] Empty state view
-[x] disable past dates on task modal
-[] undo on notification after complete
-[] be -> scheduled job for daily reminders
+[x] be -> scheduled job for tasks reminders
+[x] '1 hour before' only if the time input is present
+
+## ADMIN

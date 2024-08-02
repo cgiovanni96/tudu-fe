@@ -96,7 +96,7 @@ export const DueDatePicker = (props: Props) => {
         <TextInput
           leftSection={<IconCalendar size={18} />}
           onClick={() => setOpened(true)}
-          value={
+          defaultValue={
             props.dueDateInfo?.due_date
               ? dayjs(props.dueDateInfo.due_date).format(format)
               : ""
@@ -160,6 +160,7 @@ export const DueDatePicker = (props: Props) => {
             defaultValue={
               props.dueDateInfo?.remainder_value as RemainderMapKeys | undefined
             }
+            hour_included={props.dueDateInfo?.hour_included}
           />
 
           <Group>

@@ -11,8 +11,8 @@ import {
   Drawer,
   Stack,
 } from "@mantine/core";
-import { Link } from "@tanstack/react-router";
 
+import { Link } from "@tanstack/react-router";
 import type { BreadCrumb } from "@/types";
 import { useDisclosure, useMediaQuery } from "@mantine/hooks";
 import { IconMenu2 } from "@tabler/icons-react";
@@ -20,12 +20,14 @@ import { IconMenu2 } from "@tabler/icons-react";
 interface Props
   extends Omit<GroupProps, "title">,
     ElementProps<"header", keyof GroupProps> {
+  icon?: ReactNode;
   title: ReactNode;
   breadcrumbs?: Array<BreadCrumb>;
 }
 
 export const PageHeader = ({
   children,
+  icon,
   title,
   breadcrumbs,
   className,
@@ -42,7 +44,10 @@ export const PageHeader = ({
     >
       <div>
         <Title component="h2" order={2}>
-          {title}
+          <Group gap="sm">
+            {icon && icon}
+            {title}
+          </Group>
         </Title>
 
         {breadcrumbs && (

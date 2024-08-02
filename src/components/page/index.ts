@@ -1,5 +1,13 @@
-export { Page } from "./page";
-export { PageHeader } from "./page-header";
-export { PageError } from "./page-error";
-export { PageLoading } from "./page-loading";
-export { AuthenticatedPage } from "./authenticated-page";
+import { Page as PageRoot } from "./page";
+import { PageHeader } from "./page-header";
+import { PageError } from "./page-error";
+import { PageLoading } from "./page-loading";
+import { AuthenticatedPage } from "./authenticated-page";
+
+export const Page = {
+  Root: PageRoot,
+  Header: PageHeader,
+  Error: PageError,
+  Loading: PageLoading,
+  Authenticated: AuthenticatedPage,
+};

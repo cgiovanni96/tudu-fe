@@ -2,7 +2,7 @@ import {
   IconCalendar,
   IconCheck,
   IconHome2,
-  IconHourglassFilled,
+  IconHourglassEmpty,
   IconRepeat,
 } from "@tabler/icons-react";
 import { ElementType } from "react";
@@ -51,9 +51,9 @@ export const menu: MenuItem[] = [
     header: "Admin",
     section: [
       {
-        name: "Scheduler",
-        href: "/admin/scheduler/tasks",
-        icon: IconHourglassFilled,
+        name: "Scheduler Dashboard",
+        href: "/admin/scheduler",
+        icon: IconHourglassEmpty,
       },
     ],
   },

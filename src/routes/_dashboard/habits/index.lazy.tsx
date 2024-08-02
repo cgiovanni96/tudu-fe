@@ -1,12 +1,13 @@
-import { AuthenticatedPage, PageHeader } from "@/components/page";
 import { createLazyFileRoute } from "@tanstack/react-router";
+
+import { Page } from "@/components/page";
 
 const Habits = () => {
   return (
-    <AuthenticatedPage title="Habits">
-      <PageHeader title="Habits" />
+    <Page.Authenticated title="Habits">
+      <Page.Header title="Habits" />
       Habits
-    </AuthenticatedPage>
+    </Page.Authenticated>
   );
 };
 

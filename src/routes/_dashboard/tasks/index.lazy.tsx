@@ -2,26 +2,16 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { IconCheck, IconPlus, IconSearch } from "@tabler/icons-react";
-import { Box, Button, TextInput } from "@mantine/core";
+import { Button, TextInput } from "@mantine/core";
+import { useDebouncedState } from "@mantine/hooks";
 
 import { TASK } from "@/client/api";
-import {
-  AuthenticatedPage,
-  PageError,
-  PageHeader,
-  PageLoading,
-} from "@/components/page";
-import {
-  TaskDefaultView,
-  TaskListView,
-  TaskTableView,
-  TaskModal,
-} from "@/components/task";
 import { Task } from "@/client/schema";
 import { View } from "@/types/shared";
+
+import { Page } from "@/components/page";
+import { TaskView, TaskModal } from "@/components/task";
 import { ViewSwitcher } from "@/components/view-switcher";
-import { useDebouncedState } from "@mantine/hooks";
-import { TaskEmptyView } from "@/components/task/views/task-empty";
 
 const newTask: Task = {
   id: -1,
@@ -46,16 +36,11 @@ export const Tasks = () => {
   });
 
   return (
-    <AuthenticatedPage title="Tasks">
-      <PageHeader
-        title={
-          <>
-            <IconCheck />
-            <Box component="span" ml="sm">
-              Tasks
-            </Box>
-          </>
-        }
+    <Page.Authenticated title="Tasks">
+      <Page.Header
+        icon={<IconCheck />}
+        title={"Tasks"}
+        breadcrumbs={[{ label: "Apps" }, { label: "Tasks" }]}
       >
         <TextInput
           leftSection={<IconSearch size={18} />}
@@ -71,22 +56,21 @@ export const Tasks = () => {
         >
           Add Task
         </Button>
-      </PageHeader>
-      {status === "error" && <PageError />}
-      {status === "pending" && <PageLoading />}
+      </Page.Header>
+      {status === "error" && <Page.Error />}
+      {status === "pending" && <Page.Loading />}
       {status === "success" && tasks && tasks.data && tasks.data.length > 0 && (
         <>
-          {view === "default" && <TaskDefaultView tasks={tasks.data} />}
-          {view === "list" && <TaskListView tasks={tasks.data} />}
-          {view === "table" && <TaskTableView tasks={tasks.data} />}
+          {view === "default" && <TaskView.Default tasks={tasks.data} />}
+          {view === "list" && <TaskView.List tasks={tasks.data} />}
+          {view === "table" && <TaskView.Table tasks={tasks.data} />}
         </>
       )}
 
-      {/* TODO: better empty tasks view */}
       {status === "success" &&
         tasks &&
         tasks.data &&
-        tasks.data.length === 0 && <TaskEmptyView />}
+        tasks.data.length === 0 && <TaskView.Empty />}
 
       <TaskModal
         opened={!!editingTask}
@@ -94,7 +78,7 @@ export const Tasks = () => {
         title={editingTask && editingTask.id >= 0 ? "Edit Task" : "Create Task"}
         initialValue={editingTask}
       />
-    </AuthenticatedPage>
+    </Page.Authenticated>
   );
 };
 

@@ -24,11 +24,11 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <Mantine>
-        <ClientProvider>
+      <ClientProvider>
+        <Mantine>
           <RouterProvider router={router} context={{ auth: undefined }} />
-        </ClientProvider>
-      </Mantine>
+        </Mantine>
+      </ClientProvider>
     </StrictMode>,
   );
 }

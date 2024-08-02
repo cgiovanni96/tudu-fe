@@ -21,13 +21,14 @@ export const TaskDefaultView = (props: Props) => {
             <Stack gap="xs">
               <Text>{task.name}</Text>
               <Text className={styles.taskDescription}>{task.description}</Text>
-              <Group>
+              <Group gap="md">
                 <TaskPriority priority={task.priority} />
 
                 {task.due_date && (
                   <Badge
-                    color="green"
-                    variant="light"
+                    variant="transparent"
+                    color="gray"
+                    p="0"
                     leftSection={<IconCalendar size={16} />}
                   >
                     {dayjs(task.due_date.due_date).format(

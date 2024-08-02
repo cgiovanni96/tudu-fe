@@ -28,6 +28,9 @@ const DashboardCalendarIndexLazyImport = createFileRoute(
 const DashboardUserProfileLazyImport = createFileRoute(
   '/_dashboard/user/profile',
 )()
+const DashboardAdminSchedulerIndexLazyImport = createFileRoute(
+  '/_dashboard/admin/scheduler/',
+)()
 const AuthAuthRegisterIndexLazyImport = createFileRoute(
   '/_auth/auth/register/',
 )()
@@ -91,6 +94,16 @@ const DashboardUserProfileLazyRoute = DashboardUserProfileLazyImport.update({
 } as any).lazy(() =>
   import('./routes/_dashboard/user/profile.lazy').then((d) => d.Route),
 )
+
+const DashboardAdminSchedulerIndexLazyRoute =
+  DashboardAdminSchedulerIndexLazyImport.update({
+    path: '/admin/scheduler/',
+    getParentRoute: () => DashboardRoute,
+  } as any).lazy(() =>
+    import('./routes/_dashboard/admin/scheduler/index.lazy').then(
+      (d) => d.Route,
+    ),
+  )
 
 const AuthAuthRegisterIndexLazyRoute = AuthAuthRegisterIndexLazyImport.update({
   path: '/auth/register/',
@@ -164,6 +177,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthAuthRegisterIndexLazyImport
       parentRoute: typeof AuthImport
     }
+    '/_dashboard/admin/scheduler/': {
+      preLoaderRoute: typeof DashboardAdminSchedulerIndexLazyImport
+      parentRoute: typeof DashboardImport
+    }
   }
 }
 
@@ -182,6 +199,7 @@ export const routeTree = rootRoute.addChildren([
     DashboardHabitsIndexLazyRoute,
     DashboardTasksIndexLazyRoute,
     DashboardAdminSchedulerTasksLazyRoute,
+    DashboardAdminSchedulerIndexLazyRoute,
   ]),
 ])
 

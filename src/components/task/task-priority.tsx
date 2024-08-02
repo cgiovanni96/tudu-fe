@@ -24,7 +24,8 @@ export const TaskPriority = (props: Props) => {
             <IconFlag color={generateMantineColor(priority.color)} size={18} />
           }
           color={generateMantineColor(priority.color)}
-          variant="light"
+          variant="transparent"
+          p="0"
         >
           {priority.label}
         </Badge>
