@@ -2,6 +2,7 @@ import { Task } from "@/client/schema";
 import { Table } from "@mantine/core";
 import { TaskPriority } from "../task-priority";
 
+import { formatDueDate } from "@/utilities";
 import classes from "./task-view.module.css";
 
 type Props = {
@@ -15,8 +16,8 @@ export const TaskTableView = (props: Props) => {
         <Table.Tr className={classes.tableHeaderRow}>
           <Table.Th>Name</Table.Th>
           <Table.Th>Description</Table.Th>
-          <Table.Th>Priority</Table.Th>
           <Table.Th>Due Date</Table.Th>
+          <Table.Th>Priority</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -25,9 +26,13 @@ export const TaskTableView = (props: Props) => {
             <Table.Td>{task.name}</Table.Td>
             <Table.Td>{task.description}</Table.Td>
             <Table.Td>
+              {task.due_date && task.due_date.due_date
+                ? formatDueDate(task.due_date, "due_date")
+                : ""}
+            </Table.Td>
+            <Table.Td>
               <TaskPriority priority={task.priority} />
             </Table.Td>
-            <Table.Td>{task.due_date?.due_date || ""}</Table.Td>
           </Table.Tr>
         ))}
       </Table.Tbody>

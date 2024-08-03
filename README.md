@@ -2,16 +2,14 @@
 
 ## GLOBAL
 
-[] Better action row desktop/mobile -> not global, specific for the component
-[] be -> default timezone
-
 ## USER
 
-[] Why redirection to 8888 on social login ?
+[] profile view
 
 ## TASKS
 
-[x] be -> scheduled job for tasks reminders
-[x] '1 hour before' only if the time input is present
+[] large modal for single view, with scroll area
+[] export
+[] actions on table
 
 ## ADMIN

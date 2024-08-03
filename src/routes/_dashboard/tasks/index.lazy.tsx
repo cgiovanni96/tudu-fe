@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
-import { IconCheck, IconPlus, IconSearch } from "@tabler/icons-react";
-import { Button, TextInput } from "@mantine/core";
+import { IconCheck } from "@tabler/icons-react";
 import { useDebouncedState } from "@mantine/hooks";
 
 import { TASK } from "@/client/api";
@@ -10,15 +9,7 @@ import { Task } from "@/client/schema";
 import { View } from "@/types/shared";
 
 import { Page } from "@/components/page";
-import { TaskView, TaskModal } from "@/components/task";
-import { ViewSwitcher } from "@/components/view-switcher";
-
-const newTask: Task = {
-  id: -1,
-  name: "",
-  priority: 1,
-  due_date: undefined,
-};
+import { TaskView, TaskModal, TaskActions } from "@/components/task";
 
 export const Tasks = () => {
   const [tasksFilter, setTaskFilter] = useDebouncedState("", 200);
@@ -42,20 +33,13 @@ export const Tasks = () => {
         title={"Tasks"}
         breadcrumbs={[{ label: "Apps" }, { label: "Tasks" }]}
       >
-        <TextInput
-          leftSection={<IconSearch size={18} />}
-          defaultValue={tasksFilter}
-          placeholder="Filter by name"
-          onChange={(e) => setTaskFilter(e.target.value)}
+        <TaskActions
+          tasksFilter={tasksFilter}
+          view={view}
+          onChangeFilter={setTaskFilter}
+          onChangeView={setView}
+          onClickAdd={setEditingTask}
         />
-        <ViewSwitcher view={view} onChange={setView} />
-        <Button
-          leftSection={<IconPlus />}
-          variant="light"
-          onClick={() => setEditingTask({ ...newTask })}
-        >
-          Add Task
-        </Button>
       </Page.Header>
       {status === "error" && <Page.Error />}
       {status === "pending" && <Page.Loading />}

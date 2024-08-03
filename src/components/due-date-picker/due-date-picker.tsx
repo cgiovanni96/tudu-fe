@@ -12,6 +12,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { Remainder } from "./remainder";
 import { RemainderMapKeys, RemainderMapValues, remainderMap } from "@/data";
+import { formatDueDate } from "@/utilities";
 
 export type DueDateInfo = {
   due_date?: string;
@@ -27,9 +28,6 @@ type Props = {
 
 export const DueDatePicker = (props: Props) => {
   const [opened, setOpened] = useState(false);
-  const format = props.dueDateInfo?.hour_included
-    ? "DD/MM/YYYY HH:mm"
-    : "DD/MM/YYYY";
 
   const onChangeDate = (date: DateValue) => {
     const remainder = getRemainder(
@@ -96,11 +94,12 @@ export const DueDatePicker = (props: Props) => {
         <TextInput
           leftSection={<IconCalendar size={18} />}
           onClick={() => setOpened(true)}
-          defaultValue={
+          value={
             props.dueDateInfo?.due_date
-              ? dayjs(props.dueDateInfo.due_date).format(format)
+              ? formatDueDate(props.dueDateInfo, "due_date")
               : ""
           }
+          onChange={() => {}}
           label="Due Date"
           rightSection={
             props.dueDateInfo?.due_date && (

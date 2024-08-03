@@ -5,6 +5,7 @@ import { TaskTableView } from "./views/task-table";
 
 export { TaskCompleteIcon } from "./task-complete-icon";
 export { TaskModal } from "./task-modal";
+export { TaskActions } from "./task-actions";
 
 export const TaskView = {
   Default: TaskDefaultView,
