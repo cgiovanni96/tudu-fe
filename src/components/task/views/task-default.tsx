@@ -1,17 +1,14 @@
-import { Task } from "@/client/schema";
 import { Divider, Group, Stack, Text, Badge } from "@mantine/core";
-import { TaskCompleteIcon } from "../task-complete-icon";
-
-import styles from "../task.module.css";
 import { IconCalendar } from "@tabler/icons-react";
 import dayjs from "dayjs";
+
 import { TaskPriority } from "../task-priority";
+import { TaskCompleteIcon } from "../task-complete-icon";
+import type { SharedTaskViewProps } from "../types";
 
-type Props = {
-  tasks: Array<Task>;
-};
+import classes from "../task.module.css";
 
-export const TaskDefaultView = (props: Props) => {
+export const TaskDefaultView = (props: SharedTaskViewProps) => {
   return (
     <Stack>
       {props.tasks.map((task) => (
@@ -19,8 +16,10 @@ export const TaskDefaultView = (props: Props) => {
           <Group align="start">
             <TaskCompleteIcon taskId={task.id} />
             <Stack gap="xs">
-              <Text>{task.name}</Text>
-              <Text className={styles.taskDescription}>{task.description}</Text>
+              <Text onClick={() => props.selectTask(task)}>{task.name}</Text>
+              <Text className={classes.taskDescription}>
+                {task.description}
+              </Text>
               <Group gap="md">
                 <TaskPriority priority={task.priority} />
 

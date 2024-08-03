@@ -13,8 +13,10 @@ import { TaskView, TaskModal, TaskActions } from "@/components/task";
 
 export const Tasks = () => {
   const [tasksFilter, setTaskFilter] = useDebouncedState("", 200);
-  const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
   const [view, setView] = useState<View>("default");
+
+  const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
+  const [selectedTask, setSelectedTask] = useState<Task | undefined>(undefined);
 
   const { data: tasks, status } = useQuery({
     queryKey: ["tasks"],
@@ -45,9 +47,15 @@ export const Tasks = () => {
       {status === "pending" && <Page.Loading />}
       {status === "success" && tasks && tasks.data && tasks.data.length > 0 && (
         <>
-          {view === "default" && <TaskView.Default tasks={tasks.data} />}
-          {view === "list" && <TaskView.List tasks={tasks.data} />}
-          {view === "table" && <TaskView.Table tasks={tasks.data} />}
+          {view === "default" && (
+            <TaskView.Default tasks={tasks.data} selectTask={setSelectedTask} />
+          )}
+          {view === "list" && (
+            <TaskView.List tasks={tasks.data} selectTask={setSelectedTask} />
+          )}
+          {view === "table" && (
+            <TaskView.Table tasks={tasks.data} selectTask={setSelectedTask} />
+          )}
         </>
       )}
 
@@ -61,6 +69,12 @@ export const Tasks = () => {
         onClose={() => setEditingTask(undefined)}
         title={editingTask && editingTask.id >= 0 ? "Edit Task" : "Create Task"}
         initialValue={editingTask}
+      />
+
+      <TaskView.Single
+        open={!!selectedTask}
+        onClose={() => setSelectedTask(undefined)}
+        task={selectedTask}
       />
     </Page.Authenticated>
   );

@@ -1,15 +1,18 @@
-import { Task } from "@/client/schema";
-import { Table } from "@mantine/core";
-import { TaskPriority } from "../task-priority";
+import { ActionIcon, Menu, Table } from "@mantine/core";
 
 import { formatDueDate } from "@/utilities";
+import { TaskPriority } from "../task-priority";
+import { SharedTaskViewProps } from "../types";
+
 import classes from "./task-view.module.css";
+import {
+  IconArrowUp,
+  IconCircleCheck,
+  IconMenu,
+  IconX,
+} from "@tabler/icons-react";
 
-type Props = {
-  tasks: Array<Task>;
-};
-
-export const TaskTableView = (props: Props) => {
+export const TaskTableView = (props: SharedTaskViewProps) => {
   return (
     <Table withTableBorder withColumnBorders withRowBorders>
       <Table.Thead>
@@ -18,6 +21,9 @@ export const TaskTableView = (props: Props) => {
           <Table.Th>Description</Table.Th>
           <Table.Th>Due Date</Table.Th>
           <Table.Th>Priority</Table.Th>
+          <Table.Th align="center" styles={{ th: { width: "50px" } }}>
+            Actions
+          </Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
@@ -32,6 +38,33 @@ export const TaskTableView = (props: Props) => {
             </Table.Td>
             <Table.Td>
               <TaskPriority priority={task.priority} />
+            </Table.Td>
+
+            <Table.Td align="center" styles={{ td: { width: "50px" } }}>
+              <Menu>
+                <Menu.Target>
+                  <ActionIcon>
+                    <IconMenu />
+                  </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                  <Menu.Item
+                    leftSection={<IconArrowUp size={18} />}
+                    onClick={() => props.selectTask(task)}
+                  >
+                    Open
+                  </Menu.Item>
+
+                  <Menu.Item leftSection={<IconCircleCheck size={18} />}>
+                    Complete
+                  </Menu.Item>
+
+                  <Menu.Item leftSection={<IconX color="red" size={18} />}>
+                    Delete
+                  </Menu.Item>
+                </Menu.Dropdown>
+              </Menu>
             </Table.Td>
           </Table.Tr>
         ))}

@@ -1,19 +1,16 @@
-import { Task } from "@/client/schema";
 import { Divider, Group, Stack, Text } from "@mantine/core";
+
 import { TaskCompleteIcon } from "../task-complete-icon";
+import type { SharedTaskViewProps } from "../types";
 
-type Props = {
-  tasks: Array<Task>;
-};
-
-export const TaskListView = (props: Props) => {
+export const TaskListView = (props: SharedTaskViewProps) => {
   return (
     <Stack>
       {props.tasks.map((task) => (
         <Stack key={task.id} gap="sm">
           <Group align="start">
             <TaskCompleteIcon taskId={task.id} />
-            <Text>{task.name}</Text>
+            <Text onClick={() => props.selectTask(task)}>{task.name}</Text>
           </Group>
           <Divider />
         </Stack>
