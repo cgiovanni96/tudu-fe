@@ -7,6 +7,7 @@ import { TaskCompleteIcon } from "../task-complete-icon";
 import type { SharedTaskViewProps } from "../types";
 
 import classes from "../task.module.css";
+import { iconSizes } from "@/data";
 
 export const TaskDefaultView = (props: SharedTaskViewProps) => {
   return (
@@ -28,7 +29,7 @@ export const TaskDefaultView = (props: SharedTaskViewProps) => {
                     variant="transparent"
                     color="gray"
                     p="0"
-                    leftSection={<IconCalendar size={16} />}
+                    leftSection={<IconCalendar size={iconSizes.sm} />}
                   >
                     {dayjs(task.due_date.due_date).format(
                       task.due_date.hour_included

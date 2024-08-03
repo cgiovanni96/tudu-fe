@@ -15,6 +15,7 @@ import { TaskPriority } from "../task-priority";
 import { SharedTaskViewProps } from "../types";
 
 import classes from "./task-view.module.css";
+import { iconSizes } from "@/data";
 
 export const TaskTableView = (props: SharedTaskViewProps) => {
   const mutation = TASK.useCompleteMutation();
@@ -63,20 +64,22 @@ export const TaskTableView = (props: SharedTaskViewProps) => {
 
                 <Menu.Dropdown>
                   <Menu.Item
-                    leftSection={<IconArrowUp size={18} />}
+                    leftSection={<IconArrowUp size={iconSizes.sm} />}
                     onClick={() => props.selectTask(task)}
                   >
                     Open
                   </Menu.Item>
 
                   <Menu.Item
-                    leftSection={<IconCircleCheck size={18} />}
+                    leftSection={<IconCircleCheck size={iconSizes.sm} />}
                     onClick={() => onClickComplete(task.id)}
                   >
                     Complete
                   </Menu.Item>
 
-                  <Menu.Item leftSection={<IconX color="red" size={18} />}>
+                  <Menu.Item
+                    leftSection={<IconX color="red" size={iconSizes.sm} />}
+                  >
                     Delete
                   </Menu.Item>
                 </Menu.Dropdown>

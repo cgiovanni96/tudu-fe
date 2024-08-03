@@ -11,7 +11,12 @@ import { IconCalendar, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { Remainder } from "./remainder";
-import { RemainderMapKeys, RemainderMapValues, remainderMap } from "@/data";
+import {
+  RemainderMapKeys,
+  RemainderMapValues,
+  iconSizes,
+  remainderMap,
+} from "@/data";
 import { formatDueDate } from "@/utilities";
 
 export type DueDateInfo = {
@@ -92,7 +97,7 @@ export const DueDatePicker = (props: Props) => {
     <Popover opened={opened} onChange={setOpened}>
       <Popover.Target>
         <TextInput
-          leftSection={<IconCalendar size={18} />}
+          leftSection={<IconCalendar size={iconSizes.sm} />}
           onClick={() => setOpened(true)}
           value={
             props.dueDateInfo?.due_date
@@ -104,7 +109,7 @@ export const DueDatePicker = (props: Props) => {
           rightSection={
             props.dueDateInfo?.due_date && (
               <IconX
-                size={14}
+                size={iconSizes.xs}
                 onClick={() => props.onChange && props.onChange(undefined)}
               />
             )

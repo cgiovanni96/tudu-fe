@@ -3,6 +3,7 @@ import { IconLogout, IconUser } from "@tabler/icons-react";
 import { Link } from "@tanstack/react-router";
 
 import { AUTH } from "@/client/api/auth";
+import { iconSizes } from "@/data";
 
 type CurrentUserProps = Omit<AvatarProps, "src" | "alt"> &
   ElementProps<"div", keyof AvatarProps>;
@@ -40,7 +41,7 @@ export function CurrentUser(props: CurrentUserProps) {
       <Menu.Dropdown>
         <Menu.Label>Settings</Menu.Label>
         <Menu.Item
-          leftSection={<IconUser size="1rem" />}
+          leftSection={<IconUser size={iconSizes.sm} />}
           component={Link}
           to="/user/profile"
         >
@@ -54,7 +55,7 @@ export function CurrentUser(props: CurrentUserProps) {
             logout.isPending ? (
               <Loader size={"sm"} />
             ) : (
-              <IconLogout size="1rem" />
+              <IconLogout size={iconSizes.sm} />
             )
           }
           onClick={handleLogout}

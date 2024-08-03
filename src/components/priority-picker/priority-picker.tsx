@@ -9,13 +9,13 @@ import {
 import { IconFlag } from "@tabler/icons-react";
 
 import { generateMantineColor } from "@/utilities";
-import { PriorityOption, priorities } from "@/data";
+import { PriorityOption, iconSizes, priorities } from "@/data";
 import { useState } from "react";
 
 const SelectOption = (props: PriorityOption) => {
   return (
     <Group gap="sm">
-      <IconFlag color={generateMantineColor(props.color)} size={18} />
+      <IconFlag color={generateMantineColor(props.color)} size={iconSizes.sm} />
       <Text fz="sm" fw={500}>
         {props.label}
       </Text>

@@ -1,3 +1,4 @@
+import { iconSizes } from "@/data";
 import { Box, Button, Card, Input } from "@mantine/core";
 import { IconPlus, IconX } from "@tabler/icons-react";
 import { useState } from "react";
@@ -34,7 +35,7 @@ export const EditingCard = ({ cancel, add, addPending }: Props) => {
           variant="outline"
           size="xs"
           mr="sm"
-          leftSection={<IconX size={12} />}
+          leftSection={<IconX size={iconSizes.xs} />}
           onClick={onClickCancel}
         >
           Cancel
