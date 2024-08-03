@@ -1,5 +1,5 @@
 import { ActionIcon, Table } from "@mantine/core";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { IconHourglass, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
@@ -10,9 +10,8 @@ import { Page } from "@/components/page";
 
 const SchedulerTasks = () => {
   const { data } = useQuery(SCHEDULERS.getScheduledTasks);
-  const client = useQueryClient();
 
-  const mutation = SCHEDULERS.useDeleteScheduledTask(client);
+  const mutation = SCHEDULERS.useDeleteScheduledTask();
 
   const onClickDelete = async (id: number) => {
     await mutation.mutateAsync(id);

@@ -1,4 +1,8 @@
-import { QueryClient, queryOptions, useMutation } from "@tanstack/react-query";
+import {
+  queryOptions,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { axios } from "../axios";
 import { ScheduledTask } from "../schema";
 import { BaseResponse } from "../types";
@@ -22,8 +26,9 @@ const getSchedulerCounts = queryOptions({
   },
 });
 
-const useDeleteScheduledTask = (client: QueryClient) =>
-  useMutation({
+const useDeleteScheduledTask = () => {
+  const client = useQueryClient();
+  return useMutation({
     mutationKey: ["delete-scheduled-task"],
     mutationFn: async (taskId: number) => {
       const response = await axios.delete(`/api/v1/tasks_mail/${taskId}`);
@@ -34,6 +39,7 @@ const useDeleteScheduledTask = (client: QueryClient) =>
       await client.invalidateQueries({ queryKey: ["scheduled-tasks"] });
     },
   });
+};
 
 export const SCHEDULERS = {
   getScheduledTasks,

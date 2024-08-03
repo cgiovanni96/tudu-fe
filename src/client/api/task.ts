@@ -1,16 +1,13 @@
-import {
-  QueryClient,
-  useMutation,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { axios } from "../axios";
 import { BaseResponse } from "../types";
 import { Task } from "../schema";
 import { MUTATIONS } from "./resources/task/mutations";
 
-const useSaveMutation = (client?: QueryClient) =>
-  useMutation({
+const useSaveMutation = () => {
+  const client = useQueryClient();
+  return useMutation({
     mutationKey: ["save-task"],
     mutationFn: async (dto: { name: string; description?: string }) => {
       try {
@@ -22,10 +19,10 @@ const useSaveMutation = (client?: QueryClient) =>
       }
     },
     onSuccess: async () => {
-      client?.invalidateQueries({ queryKey: ["tasks"] });
+      client.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
-
+};
 const useCompleteMutation = () => {
   const client = useQueryClient();
 

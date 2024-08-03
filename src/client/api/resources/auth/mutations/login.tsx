@@ -1,14 +1,14 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useContext } from "react";
 
 import { axios } from "@/client/axios";
 import { AuthContext } from "@/providers";
-import { MutationParams } from "@/types/shared";
 
-type UseLoginMutation = MutationParams & { onSuccess?: () => Promise<void> };
+type UseLoginMutation = { onSuccess?: () => Promise<void> };
 
-export const useLoginMutation = ({ client, onSuccess }: UseLoginMutation) => {
+export const useLoginMutation = ({ onSuccess }: UseLoginMutation) => {
   const auth = useContext(AuthContext);
+  const client = useQueryClient();
 
   return useMutation({
     mutationKey: ["login"],

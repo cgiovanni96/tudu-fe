@@ -1,10 +1,13 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import { axios } from "@/client/axios";
 import { Task } from "@/client/schema";
 import { BaseResponse } from "@/client/types";
-import { QueryClient, useMutation } from "@tanstack/react-query";
 
-export const useDeleteTaskMutation = (client: QueryClient) =>
-  useMutation({
+export const useDeleteTaskMutation = () => {
+  const client = useQueryClient();
+
+  return useMutation({
     mutationKey: ["delete-task"],
     mutationFn: async (dto: { id: number }) => {
       try {
@@ -29,3 +32,4 @@ export const useDeleteTaskMutation = (client: QueryClient) =>
       };
     },
   });
+};

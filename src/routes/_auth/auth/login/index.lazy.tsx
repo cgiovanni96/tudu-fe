@@ -1,3 +1,5 @@
+import { z } from "zod";
+import { useContext } from "react";
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { IconBrandGithub } from "@tabler/icons-react";
 import {
@@ -10,9 +12,6 @@ import {
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
-import { useQueryClient } from "@tanstack/react-query";
-import { z } from "zod";
-import { useContext } from "react";
 
 import { AuthContext } from "@/providers";
 import { AUTH } from "@/client/api";
@@ -37,11 +36,9 @@ const Login = () => {
 
   const search = Route.useSearch();
 
-  const client = useQueryClient();
   const router = useRouter();
 
   const loginMutation = AUTH.MUTATIONS.useLoginMutation({
-    client,
     onSuccess: async () => {
       await auth?.authenticate(form.getValues().email);
     },

@@ -1,9 +1,11 @@
-import { axios } from "@/client/axios";
-import { MutationParams } from "@/types/shared";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export const useLogoutMutation = ({ client }: MutationParams) =>
-  useMutation({
+import { axios } from "@/client/axios";
+
+export const useLogoutMutation = () => {
+  const client = useQueryClient();
+
+  return useMutation({
     mutationKey: ["logout"],
     mutationFn: async () => {
       try {
@@ -18,3 +20,4 @@ export const useLogoutMutation = ({ client }: MutationParams) =>
       client.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
+};

@@ -1,9 +1,11 @@
 import { axios } from "@/client/axios";
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AddTaskDto } from "../dto";
 
-export const useAddTaskMutation = (client: QueryClient) =>
-  useMutation({
+export const useAddTaskMutation = () => {
+  const client = useQueryClient();
+
+  return useMutation({
     mutationKey: ["add-task"],
     mutationFn: async (dto: AddTaskDto) => {
       try {
@@ -18,3 +20,4 @@ export const useAddTaskMutation = (client: QueryClient) =>
       client.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
+};

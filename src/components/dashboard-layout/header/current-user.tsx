@@ -1,9 +1,8 @@
 import { Avatar, AvatarProps, ElementProps, Loader, Menu } from "@mantine/core";
 import { IconLogout, IconUser } from "@tabler/icons-react";
-import { useQueryClient } from "@tanstack/react-query";
+import { Link } from "@tanstack/react-router";
 
 import { AUTH } from "@/client/api/auth";
-import { Link } from "@tanstack/react-router";
 
 type CurrentUserProps = Omit<AvatarProps, "src" | "alt"> &
   ElementProps<"div", keyof AvatarProps>;
@@ -19,9 +18,8 @@ const userInitials = (name: string): string => {
 };
 
 export function CurrentUser(props: CurrentUserProps) {
-  const client = useQueryClient();
   const { data: user } = AUTH.useMe();
-  const logout = AUTH.MUTATIONS.useLogoutMutation({ client });
+  const logout = AUTH.MUTATIONS.useLogoutMutation();
 
   const handleLogout = async () => {
     await logout.mutateAsync();
