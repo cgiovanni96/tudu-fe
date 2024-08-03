@@ -1,10 +1,5 @@
 import { ActionIcon, Menu, Table } from "@mantine/core";
-
-import { formatDueDate } from "@/utilities";
-import { TaskPriority } from "../task-priority";
-import { SharedTaskViewProps } from "../types";
-
-import classes from "./task-view.module.css";
+import { notifications } from "@mantine/notifications";
 import {
   IconArrowUp,
   IconCircleCheck,
@@ -12,7 +7,25 @@ import {
   IconX,
 } from "@tabler/icons-react";
 
+import { formatDueDate } from "@/utilities";
+import { TASK } from "@/client/api";
+import { Notifications } from "@/components/notifications";
+
+import { TaskPriority } from "../task-priority";
+import { SharedTaskViewProps } from "../types";
+
+import classes from "./task-view.module.css";
+
 export const TaskTableView = (props: SharedTaskViewProps) => {
+  const mutation = TASK.useCompleteMutation();
+
+  const onClickComplete = async (id: number) => {
+    await mutation.mutateAsync(id);
+    notifications.show({
+      message: <Notifications.CompleteTask taskId={id} />,
+    });
+  };
+
   return (
     <Table withTableBorder withColumnBorders withRowBorders>
       <Table.Thead>
@@ -56,7 +69,10 @@ export const TaskTableView = (props: SharedTaskViewProps) => {
                     Open
                   </Menu.Item>
 
-                  <Menu.Item leftSection={<IconCircleCheck size={18} />}>
+                  <Menu.Item
+                    leftSection={<IconCircleCheck size={18} />}
+                    onClick={() => onClickComplete(task.id)}
+                  >
                     Complete
                   </Menu.Item>
 

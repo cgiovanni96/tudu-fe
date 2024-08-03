@@ -1,4 +1,8 @@
-import { QueryClient, useMutation } from "@tanstack/react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 import { axios } from "../axios";
 import { BaseResponse } from "../types";
@@ -22,8 +26,10 @@ const useSaveMutation = (client?: QueryClient) =>
     },
   });
 
-const useCompleteMutation = (client: QueryClient) =>
-  useMutation({
+const useCompleteMutation = () => {
+  const client = useQueryClient();
+
+  return useMutation({
     mutationKey: ["complete-task"],
     mutationFn: async (id: number) => {
       try {
@@ -46,9 +52,10 @@ const useCompleteMutation = (client: QueryClient) =>
       };
     },
     onSuccess: async () => {
-      client?.invalidateQueries({ queryKey: ["tasks"] });
+      client.invalidateQueries({ queryKey: ["tasks"] });
     },
   });
+};
 
 const getTasks = {
   queryKey: ["tasks"],
