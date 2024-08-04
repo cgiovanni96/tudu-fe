@@ -1,9 +1,9 @@
 import { ActionIcon, Menu, Table } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import {
-  IconArrowUp,
   IconCircleCheck,
-  IconMenu,
+  IconDots,
+  IconFileInfo,
   IconX,
 } from "@tabler/icons-react";
 
@@ -18,12 +18,20 @@ import classes from "./task-view.module.css";
 import { iconSizes } from "@/data";
 
 export const TaskTableView = (props: SharedTaskViewProps) => {
-  const mutation = TASK.useCompleteMutation();
+  const completeMutation = TASK.useCompleteMutation();
+  const deleteMutation = TASK.useDeleteTaskMutation();
 
   const onClickComplete = async (id: number) => {
-    await mutation.mutateAsync(id);
+    await completeMutation.mutateAsync(id);
     notifications.show({
       message: <Notifications.CompleteTask taskId={id} />,
+    });
+  };
+
+  const onClickDelete = async (id: number) => {
+    await deleteMutation.mutateAsync(id);
+    notifications.show({
+      message: "Task deleted",
     });
   };
 
@@ -55,16 +63,16 @@ export const TaskTableView = (props: SharedTaskViewProps) => {
             </Table.Td>
 
             <Table.Td align="center" styles={{ td: { width: "50px" } }}>
-              <Menu>
+              <Menu withArrow position="bottom-end">
                 <Menu.Target>
                   <ActionIcon>
-                    <IconMenu />
+                    <IconDots />
                   </ActionIcon>
                 </Menu.Target>
 
                 <Menu.Dropdown>
                   <Menu.Item
-                    leftSection={<IconArrowUp size={iconSizes.sm} />}
+                    leftSection={<IconFileInfo size={iconSizes.sm} />}
                     onClick={() => props.selectTask(task)}
                   >
                     Open
@@ -79,6 +87,7 @@ export const TaskTableView = (props: SharedTaskViewProps) => {
 
                   <Menu.Item
                     leftSection={<IconX color="red" size={iconSizes.sm} />}
+                    onClick={() => onClickDelete(task.id)}
                   >
                     Delete
                   </Menu.Item>

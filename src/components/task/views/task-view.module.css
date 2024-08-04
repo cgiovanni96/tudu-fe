@@ -7,3 +7,19 @@
     background-color: var(--mantine-color-dark-6);
   }
 }
+
+.taskDescription {
+  font-size: var(--mantine-font-size-sm);
+
+  @mixin light {
+    color: var(--mantine-color-gray-6);
+  }
+
+  @mixin dark {
+    color: var(--mantine-color-dark-3);
+  }
+}
+
+.clickableName {
+  cursor: pointer;
+}

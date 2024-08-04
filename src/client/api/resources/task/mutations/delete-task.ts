@@ -9,9 +9,9 @@ export const useDeleteTaskMutation = () => {
 
   return useMutation({
     mutationKey: ["delete-task"],
-    mutationFn: async (dto: { id: number }) => {
+    mutationFn: async (id: number) => {
       try {
-        await axios.delete(`/api/v1/tasks/${dto.id}`);
+        await axios.delete(`/api/v1/tasks/${id}`);
         return true;
       } catch (e) {
         console.error("delete-task-error", e);
@@ -22,13 +22,13 @@ export const useDeleteTaskMutation = () => {
       client.invalidateQueries({ queryKey: ["tasks"] });
     },
 
-    onMutate: (dto: { id: number }) => {
+    onMutate: (id: number) => {
       const previousTasks = client.getQueryData(["tasks"]) as BaseResponse<
         Array<Task>
       >;
 
       return {
-        data: previousTasks.data.filter((task) => task.id !== dto.id),
+        data: previousTasks.data.filter((task) => task.id !== id),
       };
     },
   });

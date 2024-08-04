@@ -6,7 +6,7 @@ import { TaskPriority } from "../task-priority";
 import { TaskCompleteIcon } from "../task-complete-icon";
 import type { SharedTaskViewProps } from "../types";
 
-import classes from "../task.module.css";
+import classes from "./task-view.module.css";
 import { iconSizes } from "@/data";
 
 export const TaskDefaultView = (props: SharedTaskViewProps) => {
@@ -17,7 +17,12 @@ export const TaskDefaultView = (props: SharedTaskViewProps) => {
           <Group align="start">
             <TaskCompleteIcon taskId={task.id} />
             <Stack gap="xs">
-              <Text onClick={() => props.selectTask(task)}>{task.name}</Text>
+              <Text
+                onClick={() => props.selectTask(task)}
+                className={classes.clickableName}
+              >
+                {task.name}
+              </Text>
               <Text className={classes.taskDescription}>
                 {task.description}
               </Text>

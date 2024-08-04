@@ -10,6 +10,6 @@
 
 [] large modal for single view, with scroll area
 [] export
-[] actions on table
+[x] actions on table
 
 ## ADMIN
