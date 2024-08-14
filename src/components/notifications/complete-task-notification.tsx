@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const CompleteTaskNotification = (props: Props) => {
-  const mutation = TASK.useCompleteMutation();
+  const mutation = TASK.MUTATIONS.useCompleteTaskMutation();
 
   const onClickUndo = async () => {
     await mutation.mutateAsync(props.taskId);
