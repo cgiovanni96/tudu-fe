@@ -12,6 +12,7 @@ import "@mantine/charts/styles.layer.css";
 import "@blocknote/mantine/style.css";
 
 import "../globals.css";
+
 import { HelmetProvider } from "react-helmet-async";
 import { MantineProvider } from "@mantine/core";
 import { NavigationProgress } from "@mantine/nprogress";

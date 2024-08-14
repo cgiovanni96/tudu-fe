@@ -8,3 +8,7 @@ body {
 #root {
   height: 100vh;
 }
+
+.bn-container[data-color-scheme="dark"] {
+  --bn-colors-editor-background: var(--mantine-color-dark-7);
+}
