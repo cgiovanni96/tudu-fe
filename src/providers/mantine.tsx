@@ -8,7 +8,8 @@ import "@mantine/dropzone/styles.layer.css";
 import "@mantine/nprogress/styles.layer.css";
 import "@mantine/tiptap/styles.layer.css";
 import "@mantine/charts/styles.layer.css";
-// import "mantine-datatable/styles.layer.css";
+
+import "@blocknote/mantine/style.css";
 
 import "../globals.css";
 import { HelmetProvider } from "react-helmet-async";

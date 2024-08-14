@@ -13,7 +13,7 @@ type Props = {
 export const TaskCompleteIcon = (props: Props) => {
   const { ref, hovered } = useHover<HTMLButtonElement>();
 
-  const mutation = TASK.useCompleteMutation();
+  const mutation = TASK.MUTATIONS.useCompleteTaskMutation();
 
   const onClickComplete = async () => {
     await mutation.mutateAsync(props.taskId);

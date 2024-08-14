@@ -13,7 +13,7 @@ export const TaskListView = (props: SharedTaskViewProps) => {
           <Group align="start">
             <TaskCompleteIcon taskId={task.id} />
             <Text
-              onClick={() => props.selectTask(task)}
+              onClick={() => props.selectTask(task.id)}
               className={classes.clickableName}
             >
               {task.name}

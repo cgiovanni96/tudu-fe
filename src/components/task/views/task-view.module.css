@@ -23,3 +23,19 @@
 .clickableName {
   cursor: pointer;
 }
+
+.modalBody {
+  min-height: 40vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.modalNudeInput {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+.modalNudeTitle {
+  font-size: var(--mantine-font-size-xl);
+}

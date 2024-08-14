@@ -18,8 +18,8 @@ import classes from "./task-view.module.css";
 import { iconSizes } from "@/data";
 
 export const TaskTableView = (props: SharedTaskViewProps) => {
-  const completeMutation = TASK.useCompleteMutation();
-  const deleteMutation = TASK.useDeleteTaskMutation();
+  const completeMutation = TASK.MUTATIONS.useCompleteTaskMutation();
+  const deleteMutation = TASK.MUTATIONS.useDeleteTaskMutation();
 
   const onClickComplete = async (id: number) => {
     await completeMutation.mutateAsync(id);
@@ -73,7 +73,7 @@ export const TaskTableView = (props: SharedTaskViewProps) => {
                 <Menu.Dropdown>
                   <Menu.Item
                     leftSection={<IconFileInfo size={iconSizes.sm} />}
-                    onClick={() => props.selectTask(task)}
+                    onClick={() => props.selectTask(task.id)}
                   >
                     Open
                   </Menu.Item>

@@ -1,0 +1,16 @@
+.root {
+  border: none;
+}
+
+.toolbar {
+  border: 0;
+  border-radius: var(--mantine-radius-default);
+
+  @mixin light {
+    background: var(--mantine-color-gray-2);
+  }
+
+  @mixin dark {
+    background: var(--mantine-color-dark-6);
+  }
+}

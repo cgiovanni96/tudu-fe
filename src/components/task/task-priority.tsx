@@ -9,8 +9,7 @@ type Props = {
 };
 
 export const TaskPriority = (props: Props) => {
-  // const priority =  priorities.find((item) => item.value === +props.priority);
-
+  // TODO: improve efficiency on this
   const priority = useMemo(
     () => priorities.find((item) => item.value === +props.priority),
     [props.priority],

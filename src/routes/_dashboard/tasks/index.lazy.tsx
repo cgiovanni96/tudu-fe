@@ -16,11 +16,12 @@ export const Tasks = () => {
   const [view, setView] = useState<View>("default");
 
   const [editingTask, setEditingTask] = useState<Task | undefined>(undefined);
-  const [selectedTask, setSelectedTask] = useState<Task | undefined>(undefined);
+  const [selectedTask, setSelectedTask] = useState<number | undefined>(
+    undefined,
+  );
 
   const { data: tasks, status } = useQuery({
-    queryKey: ["tasks"],
-    queryFn: TASK.getTasks.queryFn,
+    ...TASK.QUERIES.getTasks,
     select: (data) => ({
       data: data.data.filter((t) =>
         t.name.toUpperCase().includes(tasksFilter.toUpperCase()),
@@ -71,11 +72,13 @@ export const Tasks = () => {
         initialValue={editingTask}
       />
 
-      <TaskView.Single
-        open={!!selectedTask}
-        onClose={() => setSelectedTask(undefined)}
-        task={selectedTask}
-      />
+      {!!selectedTask && (
+        <TaskView.Single
+          open={!!selectedTask}
+          onClose={() => setSelectedTask(undefined)}
+          taskId={selectedTask}
+        />
+      )}
     </Page.Authenticated>
   );
 };

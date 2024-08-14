@@ -13,7 +13,9 @@ import {
 import { useForm, zodResolver } from "@mantine/form";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 
-import { AddTaskDto, addTaskSchema, TASK } from "@/client/api/task";
+import { AddTaskDto, addTaskSchema } from "@/client/api/task";
+import { TASK } from "@/client/api";
+
 import { DueDatePicker, DueDateInfo } from "../due-date-picker";
 import { PriorityPicker } from "../priority-picker";
 
@@ -27,7 +29,7 @@ export const TaskModal = ({ initialValue, onClose, ...props }: Props) => {
     [initialValue],
   );
 
-  const addTaskMutation = TASK.useAddTaskMutation();
+  const addTaskMutation = TASK.MUTATIONS.useAddTaskMutation();
 
   const [dueDateInfo, setDueDateInfo] = useState<DueDateInfo | undefined>({
     due_date: initialValue?.due_date?.due_date

@@ -18,7 +18,7 @@ export const TaskDefaultView = (props: SharedTaskViewProps) => {
             <TaskCompleteIcon taskId={task.id} />
             <Stack gap="xs">
               <Text
-                onClick={() => props.selectTask(task)}
+                onClick={() => props.selectTask(task.id)}
                 className={classes.clickableName}
               >
                 {task.name}
