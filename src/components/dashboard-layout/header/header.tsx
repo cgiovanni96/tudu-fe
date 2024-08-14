@@ -13,7 +13,7 @@ import { AUTH } from "@/client/api/auth";
 import { IconUser } from "@tabler/icons-react";
 
 export function Header() {
-  const { data: user, error } = AUTH.useMe();
+  const { data: user, error } = AUTH.QUERIES.useMe();
 
   return (
     <StickyHeader className={classes.root}>

@@ -1,8 +1,12 @@
+import { Block } from "@blocknote/core";
+
+export type TaskContent = Array<Block>;
+
 export type Task = {
   id: number;
   name: string;
   description?: string;
-  content?: string;
+  content?: TaskContent;
   due_date?: TaskDueDate;
   priority: 0 | 1 | 2;
 };

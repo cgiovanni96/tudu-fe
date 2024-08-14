@@ -7,11 +7,11 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute, useRouter } from "@tanstack/react-router";
 
-import { SCHEDULERS } from "@/client/api/scheduler";
+import { SCHEDULER } from "@/client/api";
 import { Page } from "@/components/page";
 
 const SchedulerDashboard = () => {
-  const { data } = useQuery(SCHEDULERS.getSchedulerCounts);
+  const { data } = useQuery(SCHEDULER.QUERIES.getSchedulerCounts);
 
   const router = useRouter();
 

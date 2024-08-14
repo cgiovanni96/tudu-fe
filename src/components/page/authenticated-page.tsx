@@ -12,7 +12,7 @@ interface Props extends BoxProps {
 }
 export const AuthenticatedPage = forwardRef<HTMLDivElement, Props>(
   ({ children, ...props }, ref) => {
-    const { status } = AUTH.useMe();
+    const { status } = AUTH.QUERIES.useMe();
     const { location } = useRouterState();
 
     const redirect = location.pathname.slice(1, location.pathname.length);

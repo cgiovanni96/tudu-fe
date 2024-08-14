@@ -14,7 +14,7 @@ interface Props extends BoxProps {
 }
 export const Page = forwardRef<HTMLDivElement, Props>(
   ({ children, title = "Home", meta, ...other }, ref) => {
-    const { status } = AUTH.useMe();
+    const { status } = AUTH.QUERIES.useMe();
     const { location } = useRouterState();
 
     useEffect(() => {

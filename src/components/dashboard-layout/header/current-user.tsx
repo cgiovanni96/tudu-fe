@@ -19,7 +19,7 @@ const userInitials = (name: string): string => {
 };
 
 export function CurrentUser(props: CurrentUserProps) {
-  const { data: user } = AUTH.useMe();
+  const { data: user } = AUTH.QUERIES.useMe();
   const logout = AUTH.MUTATIONS.useLogoutMutation();
 
   const handleLogout = async () => {

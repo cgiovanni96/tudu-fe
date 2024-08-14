@@ -4,14 +4,14 @@ import { createLazyFileRoute } from "@tanstack/react-router";
 import { IconHourglass, IconX } from "@tabler/icons-react";
 import dayjs from "dayjs";
 
-import { SCHEDULERS } from "@/client/api/scheduler";
+import { SCHEDULER } from "@/client/api";
 
 import { Page } from "@/components/page";
 
 const SchedulerTasks = () => {
-  const { data } = useQuery(SCHEDULERS.getScheduledTasks);
+  const { data } = useQuery(SCHEDULER.QUERIES.getScheduledTasks);
 
-  const mutation = SCHEDULERS.useDeleteScheduledTask();
+  const mutation = SCHEDULER.MUTATIONS.useDeleteScheduledTask();
 
   const onClickDelete = async (id: number) => {
     await mutation.mutateAsync(id);

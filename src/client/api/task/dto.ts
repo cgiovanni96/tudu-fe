@@ -12,3 +12,18 @@ export const addTaskSchema = z.object({
 });
 
 export type AddTaskDto = z.infer<typeof addTaskSchema>;
+
+export const updateTaskSchema = z
+  .object({
+    name: z.string().min(1),
+    description: z.string(),
+    priority: z.number().lte(2).gte(0),
+    due_date: z.string(),
+    content: z.string(),
+    hour_included: z.boolean(),
+    remainder_date: z.string(),
+    remainder_value: z.string(),
+  })
+  .partial();
+
+export type UpdateTaskDto = z.infer<typeof updateTaskSchema>;
