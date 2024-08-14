@@ -1,10 +1,10 @@
 import instance from "axios";
 const axios = instance.create({
-  baseURL: "http://localhost:8888/",
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 axios.defaults.withXSRFToken = true;
 axios.defaults.withCredentials = true;
-axios.defaults.headers.common["Authorization"] = "AUTH TOKEN FROM INSTANCE";
+// axios.defaults.headers.common["Authorization"] = "AUTH TOKEN FROM INSTANCE";
 
 export { axios };
