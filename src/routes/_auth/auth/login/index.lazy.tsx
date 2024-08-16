@@ -1,5 +1,5 @@
-import { z } from "zod";
 import { useContext } from "react";
+import { z } from "zod";
 import { Link, createFileRoute, useRouter } from "@tanstack/react-router";
 import { IconBrandGithub } from "@tabler/icons-react";
 import {
@@ -8,13 +8,17 @@ import {
   Button,
   Text,
   Divider,
-  Box,
+  Stack,
+  Title,
+  Group,
+  Anchor,
 } from "@mantine/core";
 import { useForm, zodResolver } from "@mantine/form";
 import { notifications } from "@mantine/notifications";
 
 import { AuthContext } from "@/providers";
 import { AUTH } from "@/client/api";
+import { UnderlineHighlight } from "@/components/underline-highlight";
 
 const loginSchema = z.object({
   email: z.string().min(1).max(255).email(),
@@ -35,7 +39,6 @@ const Login = () => {
   });
 
   const search = Route.useSearch();
-
   const router = useRouter();
 
   const loginMutation = AUTH.MUTATIONS.useLoginMutation({
@@ -60,8 +63,48 @@ const Login = () => {
     }
   };
 
+  const getSocialRedirect = (provider: string) => {
+    return `${import.meta.env.VITE_API_URL}/api/v1/auth/${provider}/redirect`;
+  };
+
   return (
-    <>
+    <Stack gap="xl">
+      <Stack>
+        <Title order={2}>
+          Welcome back! Please{" "}
+          <Text fz="inherit" fw="inherit" component="span" pos="relative">
+            Sign in
+            <UnderlineHighlight
+              c="blue"
+              left="0"
+              pos="absolute"
+              h="0.625rem"
+              bottom="-1rem"
+              w="7rem"
+            />
+          </Text>{" "}
+          to continue.
+        </Title>
+        <Text fz="sm" c="dimmed">
+          By signing up, you will gain access to exclusive content, special
+          offers, and be the first to hear about exciting news and updates.
+        </Text>
+      </Stack>
+
+      <Group grow>
+        <Button
+          leftSection={<IconBrandGithub size="1rem" />}
+          variant="outline"
+          color="gray"
+          component="a"
+          href={getSocialRedirect("github")}
+        >
+          Login with Github
+        </Button>
+      </Group>
+
+      <Divider label="OR" labelPosition="center" />
+
       <form onSubmit={form.onSubmit((data) => authOnClick(data))}>
         <TextInput
           label="Email address"
@@ -87,29 +130,15 @@ const Login = () => {
         >
           Login
         </Button>
-
-        <Divider my="md" />
-
-        <Button
-          leftSection={<IconBrandGithub />}
-          variant="light"
-          mt="sm"
-          fullWidth
-          size="md"
-          component="a"
-          href="http://localhost:8888/api/v1/auth/github/redirect"
-        >
-          Github
-        </Button>
       </form>
 
-      <Text ta="center" mt="md">
+      <Text fz="sm" c="dimmed">
         Don&apos;t have an account?{" "}
-        <Box component={Link} to="/auth/register">
+        <Anchor fz="inherit" component={Link} to={"/auth/register"}>
           Register
-        </Box>
+        </Anchor>
       </Text>
-    </>
+    </Stack>
   );
 };
 
